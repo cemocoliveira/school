@@ -35,4 +35,4 @@ class Horario(models.Model):
     termino = models.TimeField()
     disciplina = models.CharField(max_length=50)
     professor = models.CharField(max_length=60)
-    link = models.CharField(max_length=100)
+    link = models.CharField(max_length=100, null=True, blank=True)
