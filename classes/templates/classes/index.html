@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="description" content="Tabela de dias e horários das reuniões por turma, com links de acesso.">
+    <meta property="og:title" content="Aulas Virtuais - Horários e links" />
+    <meta property="og:url" content="https://cemocoliveira.github.io/" />
+    <meta property="og:description" content="Tabela de dias e horários das reuniões por turma, com links de acesso.">
+    <meta property="og:type" content="article" />
+    <meta property="og:image"
+        content="//lh3.googleusercontent.com/TdNokLfok3VTwtD0WBkkiCi5pKvBUzAIgXjHHVM0CAW56ZUPfNBreKh601THS_yE5IqKkOYO8Q=w128-h128-e365">
+    <meta property="og:locale:alternate" content="pt_BR" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>Horários e links das aulas</title>
+    <style>
+        .table td {
+            text-align: center;
+        }
+
+        .table {
+            border-radius: 5px;
+            width: 30%;
+            float: none;
+        }
+
+        img.center {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .table-condensed>thead>tr>th,
+        .table-condensed>tbody>tr>th,
+        .table-condensed>tfoot>tr>th,
+        .table-condensed>thead>tr>td,
+        .table-condensed>tbody>tr>td,
+        .table-condensed>tfoot>tr>td {
+            padding: 5px;
+        }
+    </style>
+    <script>
+        $('.collapse').collapse()
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <img src="meet.png" class="center" alt="Google Meet" style="width: 20%; height: auto;">
+        <p style="text-align:center">
+        <h5 style="text-align:center">CEMOC</h5>
+        <h6 style="text-align:center">Horário e Links das Aulas Virtuais</h6>
+        <h3 style="color:red;text-align:center">Em manutenção</h3>
+        </p>
+        <p style="text-align:center">
+            Selecione o turno e a turma.
+
+        </p>
+    </div>
+
+    <div class="accordion" id="accordionTurno">
+        <div class="card">
+            <!-- CARD ---- CONTÉM CABEÇALHO + CONTEUDO-->
+            <div class="" id="headingMat">
+                <!--COMEÇO DO CABEÇALHO-->
+                <h2 class="mb-0">
+                    <div class="col text-center">
+                        <button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#collapseMat"
+                            aria-expanded="true" aria-controls="collapseMat">
+                            MATUTINO
+                        </button>
+                    </div>
+                </h2>
+            </div>
+            <!--FIM DO CABEÇALHO-->
+            <div id="collapseMat" class="collapse" aria-labelledby="headingMat" data-parent="#accordionTurno">
+                <div class="card-body">
+                    <!--COMEÇO DO CONTEUDO (MATUTINO)-->
+                    <div class="accordion" id="accordionMat">
+                        {% for turma_mat in lista_mat %}
+                        <div class="card">
+                            <div class="" id="headingMat{{ forloop.counter }}">
+                                <!--COMEÇO DO CABEÇALHO-->
+                                <h2 class="mb-0">
+                                    <div class="col text-center">
+                                        <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseMat{{ forloop.counter }}"
+                                            aria-expanded="true" aria-controls="collapseMat{{ forloop.counter }}">
+                                            {{ turma_mat.nome }}
+                                        </button>
+                                    </div>
+                                </h2>
+                            </div>
+                            <div id="collapseMat{{ forloop.counter }}" class="collapse" aria-labelledby="headingMat{{ forloop.counter }}" data-parent="#accordionMat">
+                                <div class="card-body"><!--AULAS -->
+                                    
+                                    <table class="table table-striped table-bordered table-condensed"
+                                    style="font-size: 13px; text-align:center; border:1px solid black !impportant;margin-left:auto;margin-right:auto;">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">DIA</th>
+                                            <th scope="col">HORÁRIO</th>
+                                            <th scope="col">DISCIPLINA / PROF.</th>
+                                            <th scope="col">ACESSAR SALA</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for horario in turma_mat.horarios.all %}
+                                        <tr>
+                                            <th scope="row" class="align-middle">{{horario.get_dia_semana_display}}</th>
+                                            <td class="align-middle"><!--HORÁRIO-->
+                                                {{ horario.inicio|date:"H:i" }} - {{ horario.termino|date:"H:i" }}
+                                            </td>
+                                            <td class="align-middle">{{ horario.disciplina }} ({{ horario.professor }})</td>
+                                            <td class="align-middle">
+                                                <a href="{{ horario.link }}" class="btn btn-sm btn-success" target="_blank">
+                                                   clique aqui</a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!--FIM DO CONTEUDO-->
+                </div>
+            </div>
+        </div>
+        <!--FIM DO CARD-->
+        <div class="card">
+            <!-- CARD ---- CONTÉM CABEÇALHO + CONTEUDO-->
+            <div class="" id="headingVesp">
+                <!--COMEÇO DO CABEÇALHO-->
+                <h2 class="mb-0">
+                    <div class="col text-center">
+                        <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseVesp"
+                            aria-expanded="true" aria-controls="collapseVesp">
+                            VESPERTINO
+                        </button>
+                    </div>
+                </h2>
+            </div>
+            <!--FIM DO CABEÇALHO-->
+            <div id="collapseVesp" class="collapse" aria-labelledby="headingVesp" data-parent="#accordionTurno">
+                <div class="card-body">
+                    <!--COMEÇO DO CONTEUDO (MATUTINO)-->
+                    <div class="accordion" id="accordionVesp">
+                        {% for turma_vesp in lista_vesp %}
+                        <div class="card">
+                            <div class="" id="headingVesp{{ forloop.counter }}">
+                                <!--COMEÇO DO CABEÇALHO-->
+                                <h2 class="mb-0">
+                                    <div class="col text-center">
+                                        <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseVesp{{ forloop.counter }}"
+                                            aria-expanded="true" aria-controls="collapseVesp{{ forloop.counter }}">
+                                            {{ turma_vesp.nome }}
+                                        </button>
+                                    </div>
+                                </h2>
+                            </div>
+                            <div id="collapseVesp{{ forloop.counter }}" class="collapse" aria-labelledby="headingVesp{{ forloop.counter }}" data-parent="#accordionVesp">
+                                <div class="card-body"><!--AULAS -->
+                                    
+                                    <table class="table table-striped table-bordered table-condensed"
+                                    style="font-size: 13px; text-align:center; border:1px solid black !impportant;margin-left:auto;margin-right:auto;">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">DIA</th>
+                                            <th scope="col">HORÁRIO</th>
+                                            <th scope="col">DISCIPLINA / PROF.</th>
+                                            <th scope="col">ACESSAR SALA</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for horario in turma_vesp.horarios.all %}
+                                        <tr>
+                                            <th scope="row" class="align-middle">{{horario.get_dia_semana_display}}</th>
+                                            <td class="align-middle"><!--HORÁRIO-->
+                                                {{ horario.inicio|date:"H:i" }} - {{ horario.termino|date:"H:i" }}
+                                            </td>
+                                            <td class="align-middle">{{ horario.disciplina }} ({{ horario.professor }})</td>
+                                            <td class="align-middle">
+                                                <a href="{{ horario.link }}" class="btn btn-sm btn-success" target="_blank">
+                                                   clique aqui</a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!--FIM DO CONTEUDO-->
+                </div>
+            </div>
+        </div>
+        <!--FIM DO CARD-->
+        <div class="card">
+            <!-- CARD ---- CONTÉM CABEÇALHO + CONTEUDO-->
+            <div class="" id="headingNot">
+                <!--COMEÇO DO CABEÇALHO-->
+                <h2 class="mb-0">
+                    <div class="col text-center">
+                        <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseNot"
+                            aria-expanded="true" aria-controls="collapseNot">
+                            NOTURNO
+                        </button>
+                    </div>
+                </h2>
+            </div>
+            <!--FIM DO CABEÇALHO-->
+            <div id="collapseNot" class="collapse" aria-labelledby="headingNot" data-parent="#accordionTurno">
+                <div class="card-body">
+                    <!--COMEÇO DO CONTEUDO (MATUTINO)-->
+                    <div class="accordion" id="accordionNot">
+                        {% for turma_not in lista_not %}
+                        <div class="card">
+                            <div class="" id="headingNot{{ forloop.counter }}">
+                                <!--COMEÇO DO CABEÇALHO-->
+                                <h2 class="mb-0">
+                                    <div class="col text-center">
+                                        <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseNot{{ forloop.counter }}"
+                                            aria-expanded="true" aria-controls="collapseNot{{ forloop.counter }}">
+                                            {{ turma_not.nome }}
+                                        </button>
+                                    </div>
+                                </h2>
+                            </div>
+                            <div id="collapseNot{{ forloop.counter }}" class="collapse" aria-labelledby="headingNot{{ forloop.counter }}" data-parent="#accordionNot">
+                                <div class="card-body"><!--AULAS -->
+                                    
+                                    <table class="table table-striped table-bordered table-condensed"
+                                    style="font-size: 13px; text-align:center; border:1px solid black !impportant;margin-left:auto;margin-right:auto;">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">DIA</th>
+                                            <th scope="col">HORÁRIO</th>
+                                            <th scope="col">DISCIPLINA / PROF.</th>
+                                            <th scope="col">ACESSAR SALA</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for horario in turma_not.horarios.all %}
+                                        <tr>
+                                            <th scope="row" class="align-middle">{{horario.get_dia_semana_display}}</th>
+                                            <td class="align-middle"><!--HORÁRIO-->
+                                                {{ horario.inicio|date:"H:i" }} - {{ horario.termino|date:"H:i" }}
+                                            </td>
+                                            <td class="align-middle">{{ horario.disciplina }} ({{ horario.professor }})</td>
+                                            <td class="align-middle">
+                                                <a href="{{ horario.link }}" class="btn btn-sm btn-success" target="_blank">
+                                                   clique aqui</a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!--FIM DO CONTEUDO-->
+                </div>
+            </div>
+        </div>
+        <!--FIM DO CARD-->
+    </div>
+
+    <p style="text-align:center; margin-top:30px">A sala será aberta minutos antes da aula.</p>
+
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
