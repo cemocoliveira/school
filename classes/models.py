@@ -16,9 +16,10 @@ class Turma(models.Model):
 
 class Horario(models.Model):
     class Meta:
-        ordering=['dia_semana', 'inicio']
+        ordering=['turma','dia_semana', 'inicio']
     def __str__(self):
-        return '{} : {}-{}'.format(self.get_dia_semana_display(), self.inicio, self.termino)
+        return '{} {} : {}-{} ({} - {})'.format(self.turma, self.get_dia_semana_display(), 
+            self.inicio, self.termino, self.disciplina, self.professor)
 
     DAYS_OF_WEEK = (
     (1, 'SEG'),
